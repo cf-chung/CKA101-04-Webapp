@@ -1,5 +1,7 @@
 package com.freemind.article.model;
 
+import static com.freemind.util.Constants.PAGE_SIZE;
+
 import java.util.List;
 
 import org.hibernate.Session;
@@ -7,13 +9,13 @@ import org.hibernate.SessionFactory;
 
 import com.freemind.util.HibernateUtil;
 
-public class ArticleCatDaoImpl implements ArticleCatDao{
+public class ArticleCatDaoImpl implements ArticleCatDao {
 	private SessionFactory factory;
-	
+
 	public ArticleCatDaoImpl() {
 		factory = HibernateUtil.getSessionFactory();
 	}
-	
+
 	private Session getSession() {
 		return factory.getCurrentSession();
 	}
@@ -45,6 +47,19 @@ public class ArticleCatDaoImpl implements ArticleCatDao{
 	@Override
 	public List<ArticleCat> getAll() {
 		return getSession().createQuery("from ArticleCat", ArticleCat.class).getResultList();
+	}
+
+	@Override
+	public List<ArticleCat> getAll(int currentPage) {
+		return getSession().createQuery("from ArticleCat order by categoryId", ArticleCat.class)
+				.setFirstResult((currentPage - 1) * PAGE_SIZE) // 跳過幾筆
+				.setMaxResults(PAGE_SIZE) // 最多取幾筆
+				.getResultList();
+	}
+
+	@Override
+	public int getCount() {
+		return (getSession().createQuery("select count(*) from ArticleCat", Long.class).getSingleResult()).intValue();
 	}
 
 }

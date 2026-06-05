@@ -1,5 +1,7 @@
 package com.freemind.article.model;
 
+import static com.freemind.util.Constants.PAGE_SIZE;
+
 import java.util.List;
 
 public class ArticleCatService {
@@ -12,8 +14,6 @@ public class ArticleCatService {
 	public ArticleCat addArticleCat(String categoryName) {
 		ArticleCat articleCat = new ArticleCat();
 		articleCat.setCategoryName(categoryName);
-		// 檢查名稱是否重複、敏感字過濾等商業邏輯
-
 		articleCatDao.insert(articleCat);
 		return articleCat;
 	}
@@ -36,8 +36,16 @@ public class ArticleCatService {
 	}
 
 	public List<ArticleCat> getAll() {
-		// Pagination 分頁邏輯
 		return articleCatDao.getAll();
+	}
+	
+	public List<ArticleCat> getAll(int currentPage) {
+	    return articleCatDao.getAll(currentPage);
+	}
+	
+	public int getPageTotal() {
+	    int total = articleCatDao.getCount();
+	    return (int) Math.ceil((double)total / PAGE_SIZE); 
 	}
 
 }

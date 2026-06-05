@@ -84,8 +84,18 @@ public class ArticleCatServlet extends HttpServlet {
 	}
 
 	private String getAll(HttpServletRequest req, HttpServletResponse res) {
-		List<ArticleCat> allArticleCats = articleCatService.getAll();
+		String page = req.getParameter("page");
+		int currentPage = (page == null) ? 1 : Integer.parseInt(page);
+
+		List<ArticleCat> allArticleCats = articleCatService.getAll(currentPage);
 		req.setAttribute("allArticleCats", allArticleCats);
+		req.setAttribute("currentPage", currentPage);
+
+		if (req.getSession().getAttribute("articleCatPageQty") == null) {
+			int pageQty = articleCatService.getPageTotal();
+			req.getSession().setAttribute("articleCatPageQty", pageQty);
+		}
+
 		return "/articleCat/listAllArticleCats.jsp";
 	}
 

@@ -12,4 +12,8 @@ public interface ArticleCatDao {
 	ArticleCat getCategoryById(Integer categoryId);
 
 	List<ArticleCat> getAll();
+	
+    List<ArticleCat> getAll(int currentPage);
+    
+    int getCount();
 }

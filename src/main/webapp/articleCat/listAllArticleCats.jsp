@@ -68,5 +68,12 @@
 	</c:forEach>
 </table>
 
+<%-- 分頁邏輯 Pagination --%>
+<div style="width: 600px; text-align: center; margin-top: 10px;">
+	<c:forEach begin="1" end="${articleCatPageQty}" var="i">
+	    <a href="${pageContext.request.contextPath}/articleCat/articleCat.do?action=getAll&page=${i}">[${i}]</a>
+	</c:forEach>
+</div>
+
 </body>
 </html>
