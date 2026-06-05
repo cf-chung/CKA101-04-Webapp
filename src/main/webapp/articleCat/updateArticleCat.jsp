@@ -26,36 +26,39 @@
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-	<p><a href="javascript:history.back()">返回上一頁</a></p>
+    <font style="color:red">請修正以下錯誤:</font>
+    <ul>
+        <c:forEach var="message" items="${errorMsgs}">
+            <li style="color:red">${message}</li>
+        </c:forEach>
+    </ul>
 </c:if>
 
-<%-- 只有在沒有任何錯誤訊息時, 才顯示修改表單 --%>
-<c:if test="${empty errorMsgs}">
-	<form action="${pageContext.request.contextPath}/articleCat/articleCat.do" method="post">
-		<input type="hidden" name="action" value="update"> 
-		<input type="hidden" name="categoryId" value="${articleCat.categoryId}">
-		
-		<table>
-			<tr>
-				<td>目前文章分類名稱：</td>
-				<td><b>${articleCat.categoryName}</b></td>
-			</tr>
-			<tr>
-				<td>修改文章分類名稱：</td>
-				<td>
-					<input type="text" name="categoryName" value="${articleCat.categoryName}" required>
-				</td>
-			</tr>
-		</table>
-		<br>
-		<button type="submit">儲存</button>
-	</form>
+<%-- 有 articleCat 就顯示表單 --%>
+<c:if test="${not empty articleCat}">
+    <form action="${pageContext.request.contextPath}/articleCat/articleCat.do" method="post">
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="categoryId" value="${articleCat.categoryId}">
+        <table>
+            <tr>
+                <td>目前文章分類名稱：</td>
+                <td><b>${articleCat.categoryName}</b></td>
+            </tr>
+            <tr>
+                <td>修改文章分類名稱：</td>
+                <td>
+                    <input type="text" name="categoryName" value="${articleCat.categoryName}" required>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <button type="submit">儲存</button>
+    </form>
+</c:if>
+
+<%-- 沒有 articleCat 才顯示返回上一頁(ID 錯誤的情況) --%>
+<c:if test="${empty articleCat}">
+    <p><a href="javascript:history.back()">返回上一頁</a></p>
 </c:if>
 
 </body>

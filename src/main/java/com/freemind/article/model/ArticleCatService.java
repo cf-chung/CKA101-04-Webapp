@@ -12,6 +12,11 @@ public class ArticleCatService {
 	}
 
 	public ArticleCat addArticleCat(String categoryName) {
+		ArticleCat existingCat = articleCatDao.findByCategoryName(categoryName);
+		if (existingCat != null) {
+			throw new IllegalArgumentException("分類名稱已存在: " + categoryName);
+		}
+		
 		ArticleCat articleCat = new ArticleCat();
 		articleCat.setCategoryName(categoryName);
 		articleCatDao.insert(articleCat);
@@ -19,11 +24,17 @@ public class ArticleCatService {
 	}
 
 	public ArticleCat updateArticleCat(Integer categoryId, String categoryName) {
+		ArticleCat existingCat = articleCatDao.findByCategoryName(categoryName);
+		if (existingCat != null && !existingCat.getCategoryId().equals(categoryId)) {
+			throw new IllegalArgumentException("分類名稱已存在: " + categoryName);
+		}
+		
 		ArticleCat articleCat = articleCatDao.getCategoryById(categoryId);
 		if (articleCat != null) {
 			articleCat.setCategoryName(categoryName);
 			articleCatDao.update(articleCat);
 		}
+		
 		return articleCat;
 	}
 

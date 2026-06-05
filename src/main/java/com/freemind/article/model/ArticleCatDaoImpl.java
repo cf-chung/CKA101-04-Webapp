@@ -62,4 +62,11 @@ public class ArticleCatDaoImpl implements ArticleCatDao {
 		return (getSession().createQuery("select count(*) from ArticleCat", Long.class).getSingleResult()).intValue();
 	}
 
+	@Override
+	public ArticleCat findByCategoryName(String categoryName) {
+		return getSession()                         // 忽略大小寫
+				.createQuery("from ArticleCat where lower(categoryName) = lower(:categoryName)", ArticleCat.class)
+				.setParameter("categoryName", categoryName.trim()).uniqueResult();
+	}
+
 }

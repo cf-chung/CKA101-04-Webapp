@@ -113,7 +113,14 @@ public class ArticleCatServlet extends HttpServlet {
 			return;
 		}
 
-		articleCatService.addArticleCat(categoryName.trim());
+		try {
+			articleCatService.addArticleCat(categoryName.trim());
+		} catch (IllegalArgumentException e) {
+			errorMsgs.add(e.getMessage());
+			req.getRequestDispatcher("/articleCat/addArticleCat.jsp").forward(req, res);
+		    return; 
+		}
+		
 		res.sendRedirect(req.getContextPath() + "/articleCat/articleCat.do?action=getAll");
 	}
 
@@ -164,11 +171,20 @@ public class ArticleCatServlet extends HttpServlet {
 		String categoryName = req.getParameter("categoryName");
 		if (categoryName == null || categoryName.trim().length() == 0) {
 			errorMsgs.add("請輸入文章分類名稱");
+			req.setAttribute("articleCat", articleCat); // 保留原資料, 讓頁面顯示
 			req.getRequestDispatcher("/articleCat/updateArticleCat.jsp").forward(req, res);
 			return;
 		}
 
-		articleCatService.updateArticleCat(categoryId, categoryName.trim());
+		try {
+			articleCatService.updateArticleCat(categoryId, categoryName.trim());
+		} catch (IllegalArgumentException e) {
+			errorMsgs.add(e.getMessage());
+			req.setAttribute("articleCat", articleCat); // 保留原資料, 讓頁面顯示
+			req.getRequestDispatcher("/articleCat/updateArticleCat.jsp").forward(req, res);
+	        return;
+		}
+		
 		res.sendRedirect(req.getContextPath() + "/articleCat/articleCat.do?action=getAll");
 	}
 

@@ -10,6 +10,8 @@ public interface ArticleCatDao {
 	void delete(Integer categoryId);
 
 	ArticleCat getCategoryById(Integer categoryId);
+	
+	ArticleCat findByCategoryName(String categoryName);
 
 	List<ArticleCat> getAll();
 	
