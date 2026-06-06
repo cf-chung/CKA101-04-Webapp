@@ -101,13 +101,13 @@
     margin: 0 2px;
   }
   .btn-action {
-    background-color: #4A2E80;
+    background-color: rgb(79, 173, 242);
     color: white;
   }
   .btn-action:hover { background-color: #372063; }
   
   .btn-delete {
-    background-color: #e53e3e;
+    background-color: rgb(255, 108, 131);
     color: white;
   }
   .btn-delete:hover { background-color: #c53030; }

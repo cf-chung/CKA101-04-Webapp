@@ -9,11 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "article_categories")
 public class ArticleCat implements java.io.Serializable {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "article_cat_id")
@@ -24,15 +27,6 @@ public class ArticleCat implements java.io.Serializable {
 	
 	@OneToMany(mappedBy = "articleCat")
 	private Set<Article> articles;
-
-	public ArticleCat() {
-
-	}
-
-	public ArticleCat(Integer categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-    }
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -57,5 +51,6 @@ public class ArticleCat implements java.io.Serializable {
 	public void setArticles(Set<Article> articles) {
 		this.articles = articles;
 	}
-
+	
+	
 }
